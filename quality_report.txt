@@ -1,0 +1,21 @@
+======================
+DATA QUALITY REPORT
+======================
+Total records processed: 10
+Valid records: 7
+Invalid records: 3
+
+----------------------
+Completeness Summary
+----------------------
+Title completeness: 90.0%
+Content completeness: 100.0%
+URL completeness: 100.0%
+Date completeness: 100.0%
+
+----------------------
+Common validation failures
+----------------------
+invalid_url: 2
+content_too_short: 1
+missing_title: 1
