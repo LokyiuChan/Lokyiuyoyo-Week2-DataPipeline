@@ -146,6 +146,24 @@ def write_report(result, output_path):
         f.write("\n".join(lines) + "\n")
 
 
+def save_valid_only(data, path):
+    """
+    Keep only valid records in data and overwrite the file at path.
+    Preserves generated_at; articles becomes only those that pass validate_record.
+    """
+    articles = data.get("articles", [])
+    if not isinstance(articles, list):
+        articles = []
+    valid_articles = [r for r in articles if validate_record(r)[0]]
+    out = {
+        "generated_at": data.get("generated_at", ""),
+        "articles": valid_articles,
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=2, ensure_ascii=False)
+    print(f"Saved {len(valid_articles)} valid records to {path}")
+
+
 def main():
     input_path = "cleaned_output.json"
     output_path = "quality_report.txt"
@@ -156,6 +174,8 @@ def main():
     result = validate(data)
     write_report(result, output_path)
     print("Generated quality_report.txt")
+
+    save_valid_only(data, input_path)
 
 
 if __name__ == "__main__":
