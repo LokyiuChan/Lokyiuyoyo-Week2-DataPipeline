@@ -4,10 +4,10 @@
 
 This project cleans scraped article data and validates it, then produces a quality report. The pipeline is:
 
-**sample_data.json** → **cleaner.py** → **cleaned_output.json** → **validator.py** → **quality_report.txt**
+**sample_data.json** → **cleaner.py** → **cleaned_output.json** → **validator.py** → **quality_report.txt** → **cleaned_output.json (with all invalid record removed)**
 
 - **cleaner.py** reads `sample_data.json`, normalizes text (whitespace, HTML, encoding, dates), and writes `cleaned_output.json`.
-- **validator.py** reads `cleaned_output.json`, checks each record against validation rules, and writes `quality_report.txt` with counts and error summaries.
+- **validator.py** reads `cleaned_output.json`, checks each record against validation rules, writes `quality_report.txt` with counts and error summaries, then overwrites `cleaned_output.json` so it contains only valid records.
 
 ## File structure
 
@@ -15,7 +15,7 @@ This project cleans scraped article data and validates it, then produces a quali
 |------|-----|
 | `sample_data.json` | Input: JSON with `generated_at` and `articles` (url, title, content, published). |
 | `cleaner.py` | Cleans input and writes cleaned JSON. |
-| `cleaned_output.json` | Output of cleaner; input to validator. |
+| `cleaned_output.json` | Output of cleaner; input to validator. After validation, overwritten with valid records only. |
 | `validator.py` | Validates cleaned data and writes the quality report. |
 | `quality_report.txt` | Output: total/valid/invalid counts, completeness percentages, validation failure counts. |
 
@@ -42,4 +42,3 @@ The validator checks each article record and marks it valid only if all of the f
 - **Content length:** `content` must have at least 50 characters after stripping.
 
 Invalid records get one or more error codes: `missing_title`, `missing_content`, `missing_url`, `invalid_url`, `content_too_short`. 
-The report also includes field completeness (title, content, url, date) as percentages and lists how often each error code occurred.
