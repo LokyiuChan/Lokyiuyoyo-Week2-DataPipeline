@@ -109,6 +109,19 @@ Rules for report formatting:
 - After writing the report, print a one-line confirmation: Generated quality_report.txt
 
 ---
+Update the validator.py.
+
+Keep all current validation logic and quality_report.txt generation.
+
+Add one new feature:
+
+After validation is finished, collect all records that are valid (no errors),
+and overwrite cleaned_output.json so that it only contains valid records.
+
+Do NOT remove any existing functionality.
+Do NOT change the report format.
+Just add the logic to filter invalid records and save valid ones back to cleaned_output.json.
+---
 
 ## Prompt: README.md
 
